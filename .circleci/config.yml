@@ -106,10 +106,9 @@ jobs:
             cd backend
             npm install
             #npm audit --audit-level=critical           
-            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
-          #npm audit fix --force             
-               
+            npm audit fix --audit-level=critical --force
+            # npm audit fix --force             
 
   deploy-infrastructure:
     docker:
@@ -149,8 +148,6 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt
             
-
-
 workflows:
   default:
     jobs:
