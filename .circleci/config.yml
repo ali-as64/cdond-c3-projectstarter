@@ -11,7 +11,9 @@ commands:
           when: on_fail
           command: |
             aws cloudformation delete-stack --stack-name cdond-c3-projectstarter-backend-${CIRCLE_WORKFLOW_ID:0:7}
-            
+
+orbs:
+  aws-ecr: circleci/aws-ecr@3.0.0            
 
 jobs:
   build-frontend:
@@ -123,7 +125,7 @@ jobs:
               --tags project=udapeople \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
-              --region us-east-1  
+              --region=us-east-1  
               
       - run:
           name: Ensure front-end infrastructure exist
