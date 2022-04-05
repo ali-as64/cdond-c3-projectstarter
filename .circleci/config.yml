@@ -116,7 +116,11 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run: yum install -y tar gzip  
+      - run: yum install -y tar gzip 
+      - aws-cli/setup:
+          aws-access-key-id: AKIA4JF4EKK25Q4KJB6V
+          aws-secret-access-key: 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
+          aws-region: us-east-1       
       - run:
           name: Ensure back-end infrastructure exists
           command: |
@@ -124,8 +128,7 @@ jobs:
               --template-file .circleci/files/backend.yml \
               --tags project=udapeople \
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
-              --region=us-east-1  
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \  
               
       - run:
           name: Ensure front-end infrastructure exist
