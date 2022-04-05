@@ -119,9 +119,12 @@ jobs:
       - checkout
       - run: yum install -y tar gzip 
       - aws-cli/setup:
-          aws-access-key-id: AWS_ACCESS_KEY: "AKIA4JF4EKK25Q4KJB6V"
-          aws-secret-access-key: AWS_SECRET_ACCESS_KEY: "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"
-          aws-region: AWS_REGION: "us-east-1 "      
+          aws-access-key-id: 
+            - AWS_ACCESS_KEY: "AKIA4JF4EKK25Q4KJB6V"
+          aws-secret-access-key: 
+            - AWS_SECRET_ACCESS_KEY: "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"
+          aws-region:
+            - AWS_REGION: "us-east-1 "      
       - run:
           name: Ensure back-end infrastructure exists
           command: |
