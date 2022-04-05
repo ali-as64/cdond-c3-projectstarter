@@ -131,7 +131,8 @@ jobs:
               --template-file .circleci/files/frontend.yml \
               --tags project=cdond-c3-projectstarter \
               --stack-name "cdond-c3-projectstarter-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
+              --region us-east-1 
               
       - run:
           name: Add back-end ip to ansible inventory
