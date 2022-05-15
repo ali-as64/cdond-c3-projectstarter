@@ -4,14 +4,17 @@ commands:
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
-      # Add parameter here   
+      workflow_id:
+        type: "string"   
     steps:
       - run:
           name: Destroy environments
           when: on_fail
           command: |
-            aws cloudformation delete-stack --stack-name cdond-c3-projectstarter-backend-${CIRCLE_WORKFLOW_ID:0:7}
-  #
+            aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.workflow_id >>
+            aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
+            aws s3 rb s3://udapeople-<< parameters.workflow_id >> --force
+
 jobs:
   build-frontend:
     docker:
@@ -121,8 +124,8 @@ jobs:
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/backend.yml \              
-              --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:15}" \
-              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:15}" \
+              --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople \
               --region us-east-1  
               
