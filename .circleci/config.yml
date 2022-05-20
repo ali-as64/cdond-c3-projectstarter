@@ -192,7 +192,7 @@ jobs:
             npm cache clean -f
             npm install
             npm audit fix
-            #npm run build
+            npm run build
             npm run migrations > migrations_dump.txt
             cat migrations_dump.txt
 
@@ -208,8 +208,8 @@ jobs:
                curl https://kvdb.io/MNkoujciJbn4bKQywWVXTD/migrations-${CIRCLE_WORKFLOW_ID:0:7} -d "0"
             fi
             
-      - destroy-environment:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - destroy-environment
+          #workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
 workflows:
   default:
