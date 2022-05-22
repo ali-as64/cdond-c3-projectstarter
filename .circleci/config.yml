@@ -222,7 +222,10 @@ jobs:
           name: Get backend url
           command: |
             cd ./frontend
-            export BACKEND_IP=$(aws ec2 describe-instances)
+            export BACKEND_IP=$(aws ec2 describe-instances \
+              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --query 'Reservations[0].Instances[0].PublicIpAddress' \
+              --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
@@ -236,9 +239,10 @@ jobs:
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-      - revert_migrations:
-          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+            
       - destroy-environment:
+          workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
+      - revert_migrations:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
 
 workflows:
