@@ -18,7 +18,7 @@ commands:
 
   revert-migrations:
     description: Revert the last migration
-    darameters:
+    parameters:
        workflow_id:
            type: string
     steps:
