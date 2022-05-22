@@ -233,7 +233,7 @@ jobs:
           name: Install dependencies
           command: |
             yum install -y tar gzip
-            apk add --update tar gzip ansible nodejs npm curl
+            yum install ansible nodejs npm curl
             pip install awscli
       - run:
           name: Get backend url
