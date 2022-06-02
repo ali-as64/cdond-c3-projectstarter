@@ -23,19 +23,19 @@
       changed_when: false
     - setup:
   # Get the environment variables from CircleCI and add to the EC2 instance
-  # environment:
-    # - TYPEORM_CONNECTION: "{{ lookup('env', 'AWS_ACCESS_KEY_ID')}}"
-    # - TYPEORM_CONNECTION: "{{ lookup('env', 'AWS_DEFAULT_REGION')}}"
-    # - TYPEORM_CONNECTION: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY')}}"
-    # - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"
-    # - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_DATABASE')}}"
-    # - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_ENTITIES')}}"
-    # - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_HOST')}}"
-    # - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_MIGRATIONS')}}"
-    # - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_MIGRATIONS_DIR')}}"
-    # - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_PASSWORD')}}"
-    # - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_PORT')}}"
-    # - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_USERNAME')}}"
+  environment:
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'AWS_ACCESS_KEY_ID')}}"
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'AWS_DEFAULT_REGION')}}"
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY')}}"
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION')}}"
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_DATABASE')}}"
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_ENTITIES')}}"
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_HOST')}}"
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_MIGRATIONS')}}"
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_MIGRATIONS_DIR')}}"
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_PASSWORD')}}"
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_PORT')}}"
+    - TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_USERNAME')}}"
   roles:
     - configure-server
     - configure-prometheus-node-exporter
