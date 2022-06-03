@@ -245,7 +245,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum -y install gzip
+            yum -y install nodejs npm ansible
       - run:
           name: Get backend url
           command: |
