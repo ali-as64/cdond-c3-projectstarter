@@ -239,19 +239,17 @@ jobs:
       - run:
           name: Install tar
           command: |
-            yum install sudo -y
-            curl -sL https://rpm.nodesource.com/setup_13.x | sudo -E bash - 
-            yum install -y nodejs
-            cd ~/project/frontend
-            npm install
+            yum install -y tar gzip                         
       - attach_workspace:
           at: ~/      
       - run:
           name: Install dependencies
           command: |
-            apt-get update
-            apt -y install awscli
-
+            yum install sudo -y
+            curl -sL https://rpm.nodesource.com/setup_13.x | sudo -E bash - 
+            yum install -y nodejs
+            cd ~/project/frontend
+            npm install                        
       - run:
           name: Get backend url
           command: |
