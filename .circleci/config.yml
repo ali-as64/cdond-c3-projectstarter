@@ -239,7 +239,11 @@ jobs:
       - run:
           name: Install tar
           command: |
-            apt install -y tar gzip
+            yum install sudo -y
+            curl -sL https://rpm.nodesource.com/setup_13.x | sudo -E bash - 
+            yum install -y nodejs
+            cd ~/project/frontend
+            npm install
       - attach_workspace:
           at: ~/      
       - run:
