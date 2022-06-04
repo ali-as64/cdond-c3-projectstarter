@@ -245,8 +245,10 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            curl –sL https://rpm.nodesource.com/setup_16.x | bash -
-            yum install nodejs
+            apt update
+            apt install ansible
+            apt install tar gzip nodejs npm
+            apt install awscli            
       - run:
           name: Get backend url
           command: |
