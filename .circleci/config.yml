@@ -319,8 +319,9 @@ jobs:
             # apk add --update curl nodejs npm
             # pip install awscli
             sudo apt update
-            sudo apt install tar gzip nodejs npm
-            sudo apt install awscli                        
+            sudo apt upgrade -y
+            sudo apt install -y tar gzip nodejs npm
+            sudo apt install -y awscli                        
       - run:
           name: Get backend url & Backend smoke test
           command: |
