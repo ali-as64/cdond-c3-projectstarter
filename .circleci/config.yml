@@ -320,7 +320,7 @@ jobs:
             # pip install awscli
             sudo apt update
             sudo apt upgrade -y
-            sudo apt install -y tar gzip nodejs npm
+            sudo apt install -y curl
             sudo apt install -y awscli                        
       - run:
           name: Get backend url & Backend smoke test
@@ -332,7 +332,8 @@ jobs:
               --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
-            curl "${API_URL}/api/status"            
+            curl "${API_URL}/api/status"
+            sleep 60
             if curl "http://${BACKEND_IP}:3030/api/status" | grep "ok"
             then
                return 0
