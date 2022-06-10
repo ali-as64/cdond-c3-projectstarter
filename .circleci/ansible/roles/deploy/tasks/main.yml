@@ -23,8 +23,8 @@
 
 - name: Extruct archive
   shell: |
-    cd /home/ubuntu/backend
-    tar -xzvf artifact.tar.gz -C backend
+    cd /home/ubuntu
+    tar -xzvf artifact.tar.gz .
     # rm artifact.tar.gz
 
 - name: "install npm"
