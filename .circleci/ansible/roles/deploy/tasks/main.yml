@@ -1,9 +1,4 @@
 ---
-- name: "Move backend files to server."
-  copy:
-    src: /root/project/artifact.tar.gz
-    dest: ~/home/ubuntu
-
 - name: "upgrade packages."
   become: true
   apt:
@@ -15,12 +10,17 @@
     name: ["nodejs", "npm"]
     state: latest
     update_cache: yes
-    
+
+- name: "Move backend files to server."
+  copy:
+    src: /root/project/artifact.tar.gz
+    dest: ~/home/ubuntu
+
 - name: Extruct archive
   shell: |
     cd ~/home/ubuntu
     tar -xzvf artifact.tar.gz -C backend
-    rm artifact.tar.gz
+    # rm artifact.tar.gz
 
 - name: "install npm"
   become: true
