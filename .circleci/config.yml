@@ -291,7 +291,7 @@ jobs:
             apk add --update tar gzip ansible nodejs npm curl
             pip install awscli
       - run:
-          name: Env File
+          name: Configure Env File
           command: |
               echo NODE_ENV=production >> backend/.env
               echo VERSION=1 >> backend/.env
