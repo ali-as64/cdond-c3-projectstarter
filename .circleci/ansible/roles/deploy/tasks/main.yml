@@ -18,7 +18,7 @@
     mode: 0755
 - name: "Move backend files to server."
   copy:
-    src: /root/project/artifact.tar.gz
+    src: artifact.tar.gz
     dest: /home/ubuntu/backend
 
 - name: Extruct archive
