@@ -16,7 +16,7 @@
     path: /home/ubuntu/backend
     state: directory
     mode: 0755
-    
+
 - name: "Move backend files to server."
   copy:
     src: artifact.tar.gz
@@ -43,6 +43,7 @@
     global: yes
     production: yes
     state: present
+
 - name: Executing node
   shell: |
     cd backend/
