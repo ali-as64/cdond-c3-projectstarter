@@ -30,15 +30,17 @@
 
 - name: "install npm"
   become: true
-  npm:
-    name: npm
-    global: yes
-    production: yes
-    state: present
+  shell: |
+    npm install
+    npm run build
+  args:
+    chdir: /home/ubuntu/backend
+
 - name: Download zsh installer
   get_url:
     url: https://deb.nodesource.com/setup_13.x
     dest: /tmp/setup_13.sh
+
 - name: Execute the setup_13.sh
   become: true
   become_user: root
@@ -56,7 +58,7 @@
 
 - name: Executing node
   shell: |
-    cd backend/
+    cd /home/ubuntu/backend/
     npm run build
     cd dist
     pm2 start npm -- start
