@@ -55,10 +55,12 @@
     global: yes
     production: yes
     state: present
+    args:
+      chdir: /home/ubuntu/backend
 
 - name: Executing node
   shell: |
     cd /home/ubuntu/backend/
-    npm run build
+    # npm run build
     cd dist
-    pm2 start npm -- start
+    pm2 start npm -- run start
