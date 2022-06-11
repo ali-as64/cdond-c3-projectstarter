@@ -52,13 +52,13 @@
   become: true
   npm:
     name: pm2
+    path: /home/ubuntu/backend
     global: yes
     production: yes
     state: present
-    args:
-      chdir: /home/ubuntu/backend
 
 - name: Executing node
+  become: true
   shell: |
     cd /home/ubuntu/backend/
     # npm run build
