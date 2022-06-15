@@ -29,12 +29,24 @@
     tar -xzvf artifact.tar.gz .
     # rm artifact.tar.gz
 
+- name: Install Node
+  shell: |
+    cd /home/ubuntu/backend
+    npm install
+    npm install --only=dev
+
 - name: "install npm"
   shell: |
     cd /home/ubuntu/backend
     npm install
     npm run build
     npm run prestart:prod
+
+- name: "Add nodejs 13.x"
+  become: true
+  apt_repository:
+    repo: deb https://deb.nodesource.com/node_13.x bionic main
+    update_cache: yes
 
 - name: Download zsh installer
   get_url:
