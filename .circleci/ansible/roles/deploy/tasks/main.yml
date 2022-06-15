@@ -29,6 +29,12 @@
     tar -xzvf artifact.tar.gz .
     # rm artifact.tar.gz
 
+- name: Install Node
+  shell: |
+    cd /home/ubuntu/backend
+    npm install
+    npm install --only=dev
+
 - name: "install npm"
   become: true
   shell: |
