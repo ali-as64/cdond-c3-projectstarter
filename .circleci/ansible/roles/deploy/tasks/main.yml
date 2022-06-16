@@ -11,18 +11,6 @@
     state: latest
     update_cache: yes
 
-- name: "Add nodejs apt key"
-  become: true
-  apt_key:
-    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-    state: present
-
-- name: "Add nodejs 13.x"
-  become: true
-  apt_repository:
-    repo: deb https://deb.nodesource.com/node_13.x bionic main
-    update_cache: yes
-
 - name: Creates directory
   file:
     path: /home/ubuntu/backend
@@ -41,12 +29,6 @@
     tar -xzvf artifact.tar.gz .
     # rm artifact.tar.gz
 
-# - name: Install Node
-#   shell: |
-#     cd /home/ubuntu/backend
-#     npm install
-#     npm install --only=dev
-
 - name: "build npm"
   shell: |
     cd /home/ubuntu/backend
@@ -54,21 +36,21 @@
     npm run build
     npm run prestart:prod
 
-- name: Download zsh installer
-  get_url:
-    url: https://deb.nodesource.com/setup_13.x
-    dest: /tmp/setup_13.sh
+# - name: Download zsh installer
+#   get_url:
+#     url: https://deb.nodesource.com/setup_13.x
+#     dest: /tmp/setup_13.sh
 
-- name: Execute the setup_13.sh
-  become: true
-  become_user: root
-  shell: chmod 777 setup_13.sh & bash setup_13.sh
-  args:
-    chdir: /tmp/
+# - name: Execute the setup_13.sh
+#   become: true
+#   become_user: root
+#   shell: chmod 777 setup_13.sh & bash setup_13.sh
+#   args:
+#     chdir: /tmp/
 
 - name: "install pm2"
   become: true
-  npm:
+  apt:
     name: pm2
     path: /home/ubuntu/npm
     global: yes
