@@ -62,7 +62,7 @@
     cd /home/ubuntu/backend
     # npm run build
     pm2 stop default
-    #cd dist
+    cd dist
     pm2 start npm  --name backend -- run start
 
 - name: start pm2 for dist/main.js
