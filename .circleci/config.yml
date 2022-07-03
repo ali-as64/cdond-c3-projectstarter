@@ -374,13 +374,13 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: cimg/aws
+      - image: amazon/aws-cli 
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            apt install -y tar gzip curl
+            yum install -y tar gzip curl
       - run:
           name: Update cloudfront distribution
           command: |
