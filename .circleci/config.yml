@@ -374,13 +374,26 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: amazon/aws-cli 
+      - image: python:3.10-alpine3.16 
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            yum install -y tar gzip curl
+            apk add --update --no-cache tar gzip nodejs npm curl
+            pip install awscli
+      - run:
+          name: Store old WorkflowID
+          command: |
+            aws cloudformation \
+            list-exports --query "Exports[?Name==\'WorkflowID\'].Value" \
+            --no-paginate --output text > ~/oldworkflowid.txt
+            export WorkflowID=$(cat ~/oldworkflowid.txt)
+            echo WorkflowID: "$WorkflowID"
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - oldworkflowid.txt
       - run:
           name: Update cloudfront distribution
           command: |
@@ -402,18 +415,15 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum -y install tar gzip
+            yum install -y tar gzip
       - attach_workspace:
           at: ~/
       - run:
-          name: Fetch old stack workflow id
+          name: Fetch old workflow id and stack
           command: |
-            # cat ~/OldWorkflowID.txt
-            # OldWorkflowID=$(cat ~/OldWorkflowID.txt)
-            # echo OldWorkflowID: "${OldWorkflowID}"
-            export OldWorkflowID=$(aws cloudformation \
-                    list-exports --query "Exports[?Name==\'WorkflowID\'].Value" \
-                    --no-paginate --output text)
+            # Fetch the Old workflow ID
+            export OldWorkflowID=$(cat ~/oldworkflowid.txt)
+            #CurrentWorkflowID=${CIRCLE_WORKFLOW_ID:0:7}
             echo OldWorkflowID: "${OldWorkflowID}"
             echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
             # Fetch the stack names
@@ -429,7 +439,7 @@ jobs:
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
             then
                echo "---deleting---"
-              aws s3 rm "s3://${OldWorkflowID}" --recursive
+              aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID:0:7}"
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID:0:7}"
             fi
