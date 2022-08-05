@@ -386,8 +386,8 @@ jobs:
           name: Store old WorkflowID
           command: |
             aws cloudformation \
-            list-exports --query "Exports[?Name==\'WorkflowID\'].Value" \
-            --no-paginate --output text > ~/oldworkflowid.txt
+                list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+                --no-paginate --output text > ~/oldworkflowid.txt
             export WorkflowID=$(cat ~/oldworkflowid.txt)
             echo WorkflowID: "$WorkflowID"
       - persist_to_workspace:
