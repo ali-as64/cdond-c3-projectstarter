@@ -449,9 +449,9 @@ jobs:
               export OldWorkflowID=$(aws cloudformation \
               list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
               --no-paginate --output text)
-              aws s3 rm "s3://${OldWorkflowID}" --recursive
-              aws cloudformation delete-stack --stack-name "${OldWorkflowID:0:7}"
-              aws cloudformation delete-stack --stack-name "${OldWorkflowID:0:7}"
+              aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
+              aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID:0:7}"
+              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID:0:7}"
             fi
 workflows:
   default:
@@ -466,22 +466,21 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-#      - deploy-infrastructure:
-#          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-#     - configure-infrastructure:
-#          requires: [deploy-infrastructure]
-#      - run-migrations:
-#          requires: [configure-infrastructure]
-#      - deploy-frontend:
-#          requires: [run-migrations]
-#      - deploy-backend:
-#          requires: [run-migrations]
-#      - smoke-test:
-#          requires: [deploy-backend, deploy-frontend]
-#      - cloudfront-update:
-#          requires: [smoke-test]
-#     - cleanup:
-#          requires: [cloudfront-update]
-
+     - deploy-infrastructure:
+         requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+    - configure-infrastructure:
+         requires: [deploy-infrastructure]
+     - run-migrations:
+         requires: [configure-infrastructure]
+     - deploy-frontend:
+         requires: [run-migrations]
+     - deploy-backend:
+         requires: [run-migrations]
+     - smoke-test:
+         requires: [deploy-backend, deploy-frontend]
+     - cloudfront-update:
+         requires: [smoke-test]
+    - cleanup:
+         requires: [cloudfront-update]
 
 
