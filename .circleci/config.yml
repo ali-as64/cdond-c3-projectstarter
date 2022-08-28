@@ -220,7 +220,7 @@ jobs:
             #npm audit fix --force
             npm install typescript
             npm --update install python3 npm
-            npm run build
+            #npm run build
             npm rum migrations
             npm run migrations > migrations_dump.txt
       - run:
