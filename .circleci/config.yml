@@ -205,7 +205,7 @@ jobs:
           
   run-migrations:
     docker:
-      - image: circleci/node:14.18.1
+      - image: cimg/node:16.13.1
     steps:
       - checkout
       - restore_cache:
@@ -215,9 +215,12 @@ jobs:
           command: |
             cd backend 
             npm install
-            npm audit fix
-            npm audit fix --force
+            npm install typescript
+            npm --update install python3 npm
+            npm run build
+            npm rum migrations
             npm run migrations > migrations_dump.txt
+            cat migrations_dump.txt
       - run:
           name: Send migration results to kvdb
           command: |
@@ -401,17 +404,13 @@ jobs:
       - run:
           name: Update cloudfront distribution
           command: |
-            aws cloudformation update-stack \
-              --use-previous-template \
+            aws cloudformation deploy \
+              --template-file .circleci/files/cloudfront.yml \
               --stack-name InitialStack \
-              --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7}
-            # aws cloudformation deploy \
-              # --template-file .circleci/files/cloudfront.yml \
-              # --stack-name InitialStack \
-              # --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
-              # --tags project=udapeople
-            # echo OldWorkflowID: $OldWorkflowID
-            # echo Current Workflow Id: ${CIRCLE_WORKFLOW_ID:0:7} 
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
+              --tags project=udapeople
+            echo OldWorkflowID: $OldWorkflowID
+            echo Current Workflow Id: ${CIRCLE_WORKFLOW_ID:0:7} 
  
       - destroy-environment:
           workflow_id: ${CIRCLE_WORKFLOW_ID:0:7}
@@ -448,15 +447,15 @@ jobs:
           command: |
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
             then
-                echo "$OldWorkflowID!=$CurrentWorkflowID => will delete old version"
-            
-                aws s3 rm "s3://${OldWorkflowID}" --recursive
-                aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
-                aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
-                # your code goes here
-            else
-                echo "$OldWorkflowID==$CurrentWorkflowID => nothing needs to be done..."
-            fi              
+              echo "inside if"
+              export OldWorkflowID=$(aws cloudformation \
+              list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+              --no-paginate --output text)
+              aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
+              aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID:0:7}"
+              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID:0:7}"
+            fi 
+ 
 workflows:
   default:
     jobs:
