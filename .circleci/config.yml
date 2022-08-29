@@ -213,8 +213,6 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-            nvm install v13.8.0
             npm install
             npm install typescript
             npm --update install python3 npm
