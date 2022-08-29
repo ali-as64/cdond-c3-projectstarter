@@ -86,7 +86,6 @@ jobs:
             npm install
             npm run test
             
-    
   test-backend:
     docker:
       - image: circleci/node:13.8.0
@@ -214,6 +213,7 @@ jobs:
           name: Run migrations
           command: |
             cd backend
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
             nvm install v13.8.0
             npm install
             npm install typescript
@@ -221,6 +221,7 @@ jobs:
             npm run build
             npm rum migrations
             npm run migrations > migrations_dump.txt
+            cat migrations_dump.txt
       - run:
           name: Send migration results to kvdb
           command: |
